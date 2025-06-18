@@ -4,16 +4,35 @@
   <meta charset="UTF-8" />
   <title>Minos Flipbook</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/page-flip/dist/css/page-flip.min.css" />
+  <link rel="stylesheet" href="libs/page-flip.min.css" />
   <style>
-    body { margin: 0; background: #111; }
-    #flipbook { width: 100vw; height: 100vh; }
+    body {
+      margin: 0;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #flipbook {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Ajustes para que no haya bordes blancos ni rejillas visuales */
+    .page-wrapper, .stf__item {
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
   </style>
 </head>
 <body>
   <div id="flipbook"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+  <script src="libs/page-flip.browser.min.js"></script>
   <script>
     const pageFlip = new St.PageFlip(document.getElementById("flipbook"), {
       width: 1200,
