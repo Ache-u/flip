@@ -437,35 +437,12 @@ body{
 }
 
 .logo-backs {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    opacity: 0.4;
-    background-image: url('/files/backgrounds/back1.svg');
-    background-repeat: no-repeat;
-    height: 100%;
-    background-position: center left;
-    background-size: cover;
+    display: none !important;
 }
-
-/*.logo-backs2 {
-    position: absolute;
-    top: -190px;
-    right: -200px;
-    width: 700px;
-    opacity: 0.03;
-}*/
 
 .logo-backs2 {
-    position: absolute;
-    width: 220px!important;
-    opacity: 1;
-    bottom: 15px;
-    left: 15px;    
+    display: none !important;
 }
-
-
 
 .hard-cover {
    -webkit-perspective:2000px;
