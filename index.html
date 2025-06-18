@@ -1,52 +1,53 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <script type="text/javascript">
-  var flipbookcfg = {
-    url: "./data/",
-    cover: 0,
-    numPages: 10,
-    textTip: "",
-    background: "./flipbook/files/backgrounds/back16.svg",
-    showSlider: "null",
-    showSocial: "0",
-    showformat: "0",
-    companyLogo: "", // ← Logo eliminado
-    title: "",
-    tagtitle: "Flipbook",
-    description: "",
-    showDownload: "null",
-    backlink: "", // ← Enlace eliminado
-    opacity: "1",
-    name: "2df715a017185a684215271331ce9782feaf12da202506.pdf",
-    direction: "ltr",
-    flipsound: "0",
-    widthimg: "2126",
-    heightimg: "1417"
-  };
-</script>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Flipbook</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Flipbook limpio y responsivo">
-  <meta name="robots" content="noindex, nofollow">
-  
-  <!-- Fuente opcional -->
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Flipbook limpio y responsivo" />
+  <meta name="robots" content="noindex, nofollow" />
 
-  <!-- Scripts base -->
+  <!-- Configuración del visor sin logos -->
+  <script type="text/javascript">
+    var flipbookcfg = {
+      url: "./data/",
+      cover: 0,
+      numPages: 10,
+      textTip: "",
+      background: "./flipbook/files/backgrounds/back16.svg",
+      showSlider: "null",
+      showSocial: "0",
+      showformat: "0",
+      companyLogo: "",
+      title: "",
+      tagtitle: "Flipbook",
+      description: "",
+      showDownload: "null",
+      backlink: "",
+      opacity: "1",
+      name: "tu_pdf.pdf",
+      direction: "ltr",
+      flipsound: "0",
+      widthimg: "2126",
+      heightimg: "1417"
+    };
+  </script>
+
+  <!-- Fonts y scripts base -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" />
   <script src="flipbook/extras/jquery.min.1.7.js"></script>
   <script src="flipbook/extras/jquery-ui-1.8.20.full.min.js"></script>
   <script src="flipbook/extras/modernizr.2.5.3.min.js"></script>
   <script src="flipbook/lib/hash.js"></script>
 
+  <!-- Estilos mínimos -->
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       overflow: hidden;
-      background-color: #ffffff;
+      background-color: #fff;
     }
 
     .magazine-viewport {
@@ -63,3 +64,47 @@
 
     .magazine {
       width: 100%;
+      height: 100%;
+    }
+
+    .next-button, .previous-button {
+      position: absolute;
+      width: 50px;
+      height: 100%;
+      top: 0;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    .next-button { right: 0; }
+    .previous-button { left: 0; }
+  </style>
+</head>
+<body>
+  <div class="magazine-viewport" id="flipfull">
+    <div class="container">
+      <div class="magazine">
+        <div ignore="1" class="next-button"></div>
+        <div ignore="1" class="previous-button"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts para inicializar el flipbook -->
+  <script src="flipbook/js/core1.js"></script>
+  <script>
+    yepnope({
+      test: Modernizr.csstransforms,
+      yep: ['flipbook/lib/turn.min.js'],
+      nope: ['flipbook/lib/turn.html4.min.js', 'flipbook/css/jquery.ui.html4.css'],
+      both: [
+        'flipbook/lib/zoom.min.js',
+        'flipbook/css/jquery.ui.css',
+        'flipbook/js/magazineoff.js',
+        'flipbook/css/magazine1.css'
+      ],
+      complete: loadApp
+    });
+  </script>
+</body>
+</html>
