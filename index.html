@@ -11,44 +11,49 @@
       --btn-bg: #fff;
       --btn-color: #000;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: var(--bg-color);
-      font-family: 'Helvetica Neue', sans-serif;
+      background: var(--bg-color);
       height: 100vh;
       overflow: hidden;
+      font-family: 'Helvetica Neue', sans-serif;
+      position: relative;
     }
-
-    #flipbook {
-      width: 100vw;
-      height: 100vh;
-      background-color: #000;
-    }
-
+    /* Botón pantalla completa */
     #fullscreenBtn {
       position: absolute;
       top: 12px;
       right: 12px;
-      z-index: 9999;
+      z-index: 10;
       background: var(--btn-bg);
       color: var(--btn-color);
       border: none;
       padding: 8px 12px;
-      font-size: 14px;
       border-radius: 4px;
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
-
+    /* Contenedor del flipbook */
+    #flipbook {
+      width: 100vw;
+      height: 100vh;
+    }
+    /* Lienzo Retina y nitidez */
+    #flipbook canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+      image-rendering: optimizeSpeed;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      image-rendering: pixelated;
+    }
+    /* Quita bordes/sombras molestas */
     .page-wrapper,
     .stf__item {
-      background: #000 !important;
+      background: transparent !important;
       box-shadow: none !important;
       border: none !important;
     }
@@ -60,19 +65,27 @@
 
   <script src="libs/page-flip.browser.min.js"></script>
   <script>
-    const pageFlip = new St.PageFlip(document.getElementById("flipbook"), {
-      width: 1200,
-      height: 800,
-      size: "stretch",
-      minWidth: 320,
-      maxWidth: 1600,
-      minHeight: 400,
-      maxHeight: 1200,
-      maxShadowOpacity: 0.3,
-      showCover: true,
-      mobileScrollSupport: false,
-      useMouseEvents: true
-    });
+    // Calcula tamaño real para pantallas Retina
+    const dpr = window.devicePixelRatio || 1;
+    const realW = 1200 * dpr;
+    const realH = 800 * dpr;
+
+    const pageFlip = new St.PageFlip(
+      document.getElementById("flipbook"),
+      {
+        width: realW,
+        height: realH,
+        size: "stretch",
+        minWidth: 320,
+        maxWidth: 1600,
+        minHeight: 400,
+        maxHeight: 1200,
+        maxShadowOpacity: 0.3,
+        showCover: true,
+        mobileScrollSupport: false,
+        useMouseEvents: true
+      }
+    );
 
     pageFlip.loadFromImages([
       "img/minos1.png",
@@ -87,12 +100,17 @@
       "img/minos10.png"
     ]);
 
+    // Fullscreen toggle
     document.getElementById("fullscreenBtn").addEventListener("click", () => {
-      const elem = document.documentElement;
+      const el = document.documentElement;
       if (!document.fullscreenElement) {
-        elem.requestFullscreen?.() || elem.webkitRequestFullscreen?.() || elem.msRequestFullscreen?.();
+        el.requestFullscreen?.() ||
+          el.webkitRequestFullscreen?.() ||
+          el.msRequestFullscreen?.();
       } else {
-        document.exitFullscreen?.() || document.webkitExitFullscreen?.() || document.msExitFullscreen?.();
+        document.exitFullscreen?.() ||
+          document.webkitExitFullscreen?.() ||
+          document.msExitFullscreen?.();
       }
     });
   </script>
