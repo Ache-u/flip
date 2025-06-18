@@ -2,39 +2,44 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Flipbook Offline</title>
+  <title>Minos Flipbook</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/page-flip/dist/css/page-flip.min.css" />
   <style>
-    body { margin: 0; background: #222; display: flex; justify-content: center; align-items: center; height: 100vh; }
-    canvas { box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+    body { margin: 0; background: #111; }
+    #flipbook { width: 100vw; height: 100vh; }
   </style>
 </head>
 <body>
-  <canvas id="flipbookCanvas"></canvas>
+  <div id="flipbook"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
   <script>
-    const url = 'tu_archivo.pdf'; // Coloca aquí el nombre de tu PDF
-    const canvas = document.getElementById('flipbookCanvas');
-    const ctx = canvas.getContext('2d');
-    let pdfDoc = null, pageNum = 1;
-
-    async function renderPage(num) {
-      const page = await pdfDoc.getPage(num);
-      const viewport = page.getViewport({ scale: 1.5 });
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      await page.render({ canvasContext: ctx, viewport }).promise;
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' && pageNum < pdfDoc.numPages) pageNum++, renderPage(pageNum);
-      if (e.key === 'ArrowLeft' && pageNum > 1) pageNum--, renderPage(pageNum);
+    const pageFlip = new St.PageFlip(document.getElementById("flipbook"), {
+      width: 1200,
+      height: 800,
+      size: "stretch",
+      minWidth: 315,
+      maxWidth: 1200,
+      minHeight: 400,
+      maxHeight: 900,
+      maxShadowOpacity: 0.5,
+      showCover: true,
+      mobileScrollSupport: false
     });
 
-    pdfjsLib.getDocument(url).promise.then(pdf => {
-      pdfDoc = pdf;
-      renderPage(pageNum);
-    });
+    pageFlip.loadFromImages([
+      "img/minos1.png",
+      "img/minos2.png",
+      "img/minos3.png",
+      "img/minos4.png",
+      "img/minos5.png",
+      "img/minos6.png",
+      "img/minos7.png",
+      "img/minos8.png",
+      "img/minos9.png",
+      "img/minos10.png"
+    ]);
   </script>
 </body>
 </html>
