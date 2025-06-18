@@ -5,7 +5,7 @@
   <title>Minos Flipbook</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-  <!-- PWA Manifest & Meta -->
+  <!-- PWA: manifiesto y meta tags -->
   <link rel="manifest" href="manifest.json" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -15,21 +15,24 @@
   <link rel="stylesheet" href="libs/page-flip.min.css" />
 
   <style>
-    /* Fullscreen real (o pseudo) y fondo negro */
+    /* 1) Fullscreen y fondo negro en todo el documento */
     html, body {
       margin: 0; padding: 0;
       width: 100%; height: 100%;
       background: #000 !important;
       overflow: hidden;
     }
+
+    /* 2) Contenedor del flipbook a pantalla completa */
     #flipbook {
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
       background: #000 !important;
     }
-    /* Forzar negro en todos los nodos internos */
-    #flipbook *,
+
+    /* 3) Forzar fondo negro y quitar sombras en todos los nodos internos */
+    #flipbook *, 
     #flipbook canvas,
     #flipbook .stf__parent,
     #flipbook .stf__wrapper,
@@ -41,7 +44,8 @@
       box-shadow: none !important;
       border: none !important;
     }
-    /* Quitar sombras residuales */
+
+    /* 4) Ocultar posibles sombras internas */
     #flipbook .stf__outerShadow,
     #flipbook .stf__innerShadow,
     #flipbook .stf__hardShadow,
@@ -50,7 +54,7 @@
     }
   </style>
 
-  <!-- Service Worker -->
+  <!-- Service Worker: cacheo y offline -->
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
@@ -60,31 +64,19 @@
 </head>
 
 <body>
+  <!-- Flipbook container -->
   <div id="flipbook"></div>
 
   <!-- JS de la librería -->
   <script src="libs/page-flip.browser.min.js"></script>
   <script>
-    // Inicializa el flipbook en negro y sin sombras
-    const pageFlip = new St.PageFlip(document.getElementById("flipbook"), {
-      width: 1200,
-      height: 800,
-      size: "stretch",
-      minWidth: 320,   maxWidth: 1600,
-      minHeight: 400,  maxHeight: 1200,
-      maxShadowOpacity: 0,
-      showCover: true,
-      mobileScrollSupport: false,
-      useMouseEvents: true,
-      backgroundColor: "#000"
-    });
-
-    // Carga tus imágenes PNG
-    pageFlip.loadFromImages([
-      "img/minos1.png","img/minos2.png","img/minos3.png","img/minos4.png",
-      "img/minos5.png","img/minos6.png","img/minos7.png","img/minos8.png",
-      "img/minos9.png","img/minos10.png"
-    ]);
-  </script>
-</body>
-</html>
+    // Inicializa el flipbook con fondo negro y sin sombras
+    const pageFlip = new St.PageFlip(
+      document.getElementById("flipbook"), {
+        width: 1200,
+        height: 800,
+        size: "stretch",
+        minWidth: 320,   maxWidth: 1600,
+        minHeight: 400,  maxHeight: 1200,
+        maxShadowOpacity: 0,
+        show
