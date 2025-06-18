@@ -2,16 +2,18 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Minos Handmade</title>
   <link rel="icon" type="image/png" href="icon-192.png" />
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      background: #000;
-      height: 100%;
+      background-color: #000;
+      width: 100vw;
+      height: 100vh;
       overflow: hidden;
+      touch-action: none;
     }
 
     #flipbook {
@@ -22,10 +24,10 @@
       align-items: center;
     }
 
-    .page {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+    canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
     }
   </style>
 </head>
@@ -35,20 +37,22 @@
   <script type="module">
     import { PageFlip } from 'https://unpkg.com/page-flip/dist/page-flip.browser.min.js';
 
-    const flipbookElement = document.getElementById("flipbook");
-
-    const pageFlip = new PageFlip(flipbookElement, {
-      width: window.innerWidth,
-      height: window.innerHeight,
-      size: "stretch",
+    const flipbook = new PageFlip(document.getElementById("flipbook"), {
+      width: 600,               // tamaño base de una página (ajustable)
+      height: 800,              // tamaño base de una página (ajustable)
+      size: "stretch",          // se adapta al viewport
+      minWidth: 315,
+      minHeight: 420,
+      maxWidth: 2000,
+      maxHeight: 3000,
       drawShadow: true,
       flippingTime: 700,
       useMouseEvents: true,
-      showCover: false,
       mobileScrollSupport: false,
-      startPage: 0,
-      usePortrait: true,
-      singlePage: true
+      showCover: false,
+      usePortrait: true,        // adapta formato vertical
+      singlePage: true,         // ✅ solo una página a la vez
+      startPage: 0
     });
 
     const pages = [];
@@ -56,7 +60,7 @@
       pages.push({ src: `img/minos${i}.png`, type: 'image' });
     }
 
-    pageFlip.loadFromImages(pages);
+    flipbook.loadFromImages(pages);
   </script>
 </body>
 </html>
