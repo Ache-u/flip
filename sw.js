@@ -1,36 +1,35 @@
 const CACHE_NAME = 'minos-cache-v1';
 const ASSETS = [
-  '/',                    // Hace match con index.html
-  '/index.html',
-  '/manifest.json',
-  '/flipbookee.pdf',      // opcional: si quieres servir tu PDF offline
-  '/libs/page-flip.min.css',
-  '/libs/page-flip.browser.min.js',
-  // Lista aquí todas las imágenes:
-  '/img/minos1.png',
-  '/img/minos2.png',
-  '/img/minos3.png',
-  '/img/minos4.png',
-  '/img/minos5.png',
-  '/img/minos6.png',
-  '/img/minos7.png',
-  '/img/minos8.png',
-  '/img/minos9.png',
-  '/img/minos10.png'
+  '/flipminos/',
+  '/flipminos/index.html',
+  '/flipminos/manifest.json',
+  '/flipminos/flipbookee.pdf', // opcional
+  '/flipminos/libs/page-flip.min.css',
+  '/flipminos/libs/page-flip.browser.min.js',
+  '/flipminos/img/minos1.png',
+  '/flipminos/img/minos2.png',
+  '/flipminos/img/minos3.png',
+  '/flipminos/img/minos4.png',
+  '/flipminos/img/minos5.png',
+  '/flipminos/img/minos6.png',
+  '/flipminos/img/minos7.png',
+  '/flipminos/img/minos8.png',
+  '/flipminos/img/minos9.png',
+  '/flipminos/img/minos10.png'
 ];
 
-// Al instalar: precache
-self.addEventListener('install', evt => {
-  evt.waitUntil(
+// Instala y precachea todo
+self.addEventListener('install', event => {
+  event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(ASSETS))
       .then(() => self.skipWaiting())
   );
 });
 
-// Al activar: limpia caches viejos
-self.addEventListener('activate', evt => {
-  evt.waitUntil(
+// Activa y limpia cachés antiguos
+self.addEventListener('activate', event => {
+  event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
         keys.filter(key => key !== CACHE_NAME)
@@ -40,19 +39,17 @@ self.addEventListener('activate', evt => {
   );
 });
 
-// Intercepta fetch para servir de cache primero
-self.addEventListener('fetch', evt => {
-  evt.respondWith(
-    caches.match(evt.request).then(cached => {
+// Intercepta todas las peticiones: primero intenta desde cache
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request).then(cached => {
       if (cached) return cached;
-      return fetch(evt.request)
+      return fetch(event.request)
         .then(res => {
-          // opcional: cachea nuevas peticiones de la misma sesión
-          return caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(evt.request, res.clone());
-              return res;
-            });
+          return caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, res.clone());
+            return res;
+          });
         });
     })
   );
