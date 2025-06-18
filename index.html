@@ -2,79 +2,62 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Minos Handmade</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <link rel="icon" href="icon-192.png" sizes="192x192" type="image/png" />
-  <link rel="stylesheet" href="libs/page-flip.min.css" />
-
+  <link rel="icon" type="image/png" href="icon-192.png">
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      width: 100%;
+      background: #000;
       height: 100%;
-      background: #000 !important;
       overflow: hidden;
     }
-
     #flipbook {
-      position: fixed;
-      top: 0; left: 0;
       width: 100vw;
       height: 100vh;
-      background: #000 !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-
-    #flipbook *, #flipbook canvas,
-    #flipbook .stf__parent,
-    #flipbook .stf__wrapper,
-    #flipbook .stf__block,
-    #flipbook .stf__item,
-    #flipbook .page-wrapper,
-    #flipbook .page-content {
-      width: 100% !important;
-      height: 100% !important;
-      top: 0 !important;
-      left: 0 !important;
-      background: #000 !important;
-      box-shadow: none !important;
-      border: none !important;
-    }
-
-    #flipbook .stf__outerShadow,
-    #flipbook .stf__innerShadow,
-    #flipbook .stf__hardShadow,
-    #flipbook .stf__hardInnerShadow {
-      display: none !important;
+    .page {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
   </style>
 </head>
-
 <body>
   <div id="flipbook"></div>
 
-  <script src="libs/page-flip.browser.min.js"></script>
-  <script>
-    const pageFlip = new St.PageFlip(document.getElementById("flipbook"), {
-      width: 1200,
-      height: 800,
+  <script type="module">
+    import { PageFlip } from './libs/page-flip.browser.min.js';
+
+    const pageFlip = new PageFlip(document.getElementById("flipbook"), {
+      width: window.innerWidth,
+      height: window.innerHeight,
       size: "stretch",
-      minWidth: 320,
-      maxWidth: 1600,
-      minHeight: 400,
-      maxHeight: 1200,
-      showCover: true,
-      mobileScrollSupport: false,
+      minWidth: 0,
+      minHeight: 0,
+      maxWidth: 2000,
+      maxHeight: 2000,
+      drawShadow: true,
+      flippingTime: 700,
       useMouseEvents: true,
-      maxShadowOpacity: 0,
-      backgroundColor: "#000"
+      showCover: false,
+      mobileScrollSupport: false,
+      startPage: 0,
+      usePortrait: true,
+      singlePage: true,
+      startZIndex: 0
     });
 
-    pageFlip.loadFromImages([
-      "img/minos1.png", "img/minos2.png", "img/minos3.png", "img/minos4.png",
-      "img/minos5.png", "img/minos6.png", "img/minos7.png", "img/minos8.png",
-      "img/minos9.png", "img/minos10.png"
-    ]);
+    const pages = [];
+    for (let i = 1; i <= 10; i++) {
+      pages.push({ src: `img/minos${i}.png`, type: 'image' });
+    }
+
+    pageFlip.loadFromImages(pages);
   </script>
 </body>
 </html>
