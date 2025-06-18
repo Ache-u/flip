@@ -1,98 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <title>Minos Flipbook – Fullscreen & Fondo Negro</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <title>Minos Flipbook</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <link rel="stylesheet" href="libs/page-flip.min.css"/>
   <style>
-    /* 1. Todo el documento negro */
+    /* 1. Oculta scrollbars y márgenes */
     html, body {
-      margin:0; padding:0;
-      width:100%; height:100%;
-      background:#000!important;
-      overflow:hidden;
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: #000;
     }
-    /* 2. Contenedor full-screen */
+    /* 2. Contenedor full-screen fijo */
     #flipbook {
-      position:relative;
-      width:100vw;  height:100vh;
-      background:#000!important;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: #000;
     }
-    /* 3. Forzar negro en cada elemento de StPageFlip */
-    #flipbook *,
-    #flipbook canvas,
+    /* 3. Forzar fondo negro en todos los elementos internos */
+    #flipbook *, #flipbook canvas,
     #flipbook .stf__parent,
     #flipbook .stf__wrapper,
     #flipbook .stf__block,
     #flipbook .stf__item,
     #flipbook .page-wrapper,
     #flipbook .page-content {
-      background:#000!important;
-      box-shadow:none!important;
-      border:none!important;
+      background: #000 !important;
+      box-shadow: none !important;
+      border: none !important;
     }
-    /* 4. Oculta sombras internas */
     #flipbook .stf__outerShadow,
     #flipbook .stf__innerShadow,
     #flipbook .stf__hardShadow,
     #flipbook .stf__hardInnerShadow {
-      display:none!important;
-    }
-    /* 5. Hint inicial */
-    #startHint {
-      position:absolute;
-      top:50%; left:50%;
-      transform:translate(-50%,-50%);
-      color:#fff; font-size:18px;
-      pointer-events:none;
-      font-family:sans-serif;
-      text-align:center;
-      opacity:.8;
+      display: none !important;
     }
   </style>
 </head>
 <body>
-
   <div id="flipbook"></div>
-  <div id="startHint">Toca o haz clic para empezar</div>
 
   <script src="libs/page-flip.browser.min.js"></script>
   <script>
-    // 1) Configura el libro con fondo negro por API
     const pageFlip = new St.PageFlip(
       document.getElementById("flipbook"), {
-        width:1200,
-        height:800,
-        size:"stretch",
-        minWidth:320,   maxWidth:1600,
-        minHeight:400,  maxHeight:1200,
-        maxShadowOpacity:0,  // quita sombras
-        showCover:true,
-        mobileScrollSupport:false,
-        useMouseEvents:true,
-        // <-- CLAVE: backgroundColor aplica a las páginas
-        backgroundColor:"#000"
+        width: 1200, height: 800,
+        size: "stretch",
+        minWidth: 320, maxWidth: 1600,
+        minHeight: 400, maxHeight: 1200,
+        maxShadowOpacity: 0, showCover: true,
+        mobileScrollSupport: false,
+        useMouseEvents: true,
+        backgroundColor: "#000"
       }
     );
-
-    // 2) Carga tus imágenes
     pageFlip.loadFromImages([
       "img/minos1.png","img/minos2.png","img/minos3.png","img/minos4.png",
       "img/minos5.png","img/minos6.png","img/minos7.png","img/minos8.png",
       "img/minos9.png","img/minos10.png"
     ]);
-
-    // 3) Fullscreen al primer toque/clic
-    function enterFS() {
-      const e = document.documentElement;
-      (e.requestFullscreen  ||
-       e.webkitRequestFullscreen ||
-       e.msRequestFullscreen).call(e);
-      document.getElementById("startHint").style.display = "none";
-      document.removeEventListener("pointerdown", enterFS);
-    }
-    document.addEventListener("pointerdown", enterFS, { once:true });
   </script>
 </body>
 </html>
