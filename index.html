@@ -13,21 +13,18 @@
       width: 100vw;
       height: 100vh;
       overflow: hidden;
-      touch-action: none;
+      touch-action: manipulation;
     }
 
     #flipbook {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100vw;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-    }
-
-    canvas {
-      display: block;
-      width: 100% !important;
-      height: 100% !important;
     }
   </style>
 </head>
@@ -37,30 +34,28 @@
   <script type="module">
     import { PageFlip } from 'https://unpkg.com/page-flip/dist/page-flip.browser.min.js';
 
-    const flipbook = new PageFlip(document.getElementById("flipbook"), {
-      width: 600,               // tamaño base de una página (ajustable)
-      height: 800,              // tamaño base de una página (ajustable)
-      size: "stretch",          // se adapta al viewport
-      minWidth: 315,
-      minHeight: 420,
-      maxWidth: 2000,
-      maxHeight: 3000,
-      drawShadow: true,
-      flippingTime: 700,
-      useMouseEvents: true,
-      mobileScrollSupport: false,
-      showCover: false,
-      usePortrait: true,        // adapta formato vertical
-      singlePage: true,         // ✅ solo una página a la vez
-      startPage: 0
+    window.addEventListener('DOMContentLoaded', () => {
+      const pageFlip = new PageFlip(document.getElementById("flipbook"), {
+        width: 600,
+        height: 800,
+        size: "stretch",
+        drawShadow: true,
+        flippingTime: 700,
+        useMouseEvents: true,
+        mobileScrollSupport: false,
+        showCover: false,
+        usePortrait: true,
+        singlePage: true,
+        startPage: 0,
+      });
+
+      const pages = [];
+      for (let i = 1; i <= 10; i++) {
+        pages.push({ src: `img/minos${i}.png`, type: 'image' });
+      }
+
+      pageFlip.loadFromImages(pages);
     });
-
-    const pages = [];
-    for (let i = 1; i <= 10; i++) {
-      pages.push({ src: `img/minos${i}.png`, type: 'image' });
-    }
-
-    flipbook.loadFromImages(pages);
   </script>
 </body>
 </html>
