@@ -1,13 +1,11 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <title>Flipbook</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Flipbook limpio y responsivo" />
   <meta name="robots" content="noindex, nofollow" />
 
-  <!-- Configuración del visor sin logos -->
   <script type="text/javascript">
     var flipbookcfg = {
       url: "./data/",
@@ -20,7 +18,7 @@
       showformat: "0",
       companyLogo: "",
       title: "",
-      tagtitle: "Flipbook",
+      tagtitle: "",
       description: "",
       showDownload: "null",
       backlink: "",
@@ -33,21 +31,14 @@
     };
   </script>
 
-  <!-- Fonts y scripts base -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" />
-  <script src="flipbook/extras/jquery.min.1.7.js"></script>
-  <script src="flipbook/extras/jquery-ui-1.8.20.full.min.js"></script>
-  <script src="flipbook/extras/modernizr.2.5.3.min.js"></script>
-  <script src="flipbook/lib/hash.js"></script>
-
-  <!-- Estilos mínimos -->
+  <!-- Estilos básicos -->
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       overflow: hidden;
-      background-color: #fff;
+      background-color: #000;
     }
 
     .magazine-viewport {
@@ -67,7 +58,8 @@
       height: 100%;
     }
 
-    .next-button, .previous-button {
+    .next-button,
+    .previous-button {
       position: absolute;
       width: 50px;
       height: 100%;
@@ -79,6 +71,12 @@
     .next-button { right: 0; }
     .previous-button { left: 0; }
   </style>
+
+  <!-- Scripts requeridos -->
+  <script src="flipbook/extras/jquery.min.1.7.js"></script>
+  <script src="flipbook/extras/jquery-ui-1.8.20.full.min.js"></script>
+  <script src="flipbook/extras/modernizr.2.5.3.min.js"></script>
+  <script src="flipbook/lib/hash.js"></script>
 </head>
 <body>
   <div class="magazine-viewport" id="flipfull">
@@ -90,7 +88,6 @@
     </div>
   </div>
 
-  <!-- Scripts para inicializar el flipbook -->
   <script src="flipbook/js/core1.js"></script>
   <script>
     yepnope({
