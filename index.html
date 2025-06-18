@@ -4,28 +4,36 @@
   <meta charset="UTF-8" />
   <title>Minos Flipbook – Una página</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- CSS de la librería -->
   <link rel="stylesheet" href="libs/page-flip.min.css" />
 
   <style>
+    /* 1) Forzar fondo negro en todo el documento */
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: #000 !important;
+      overflow: hidden;
+    }
+
     :root {
-      --bg-color: #000;
       --btn-bg: #fff;
       --btn-color: #000;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body, #flipbook {
-      width: 100vw;
-      height: 100vh;
-      background: var(--bg-color);
-      overflow: hidden;
-      position: relative;
-      font-family: 'Helvetica Neue', sans-serif;
+    * {
+      box-sizing: border-box;
     }
 
-    /* Botón full-screen */
+    /* 2) Contenedor del flipbook a pantalla completa */
+    #flipbook {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      background: #000 !important;
+    }
+
+    /* 3) Botón Fullscreen */
     #fullscreenBtn {
       position: absolute;
       top: 12px; right: 12px;
@@ -40,41 +48,18 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
 
-    /* ================================
-       H A C K   U N A   P Á G I N A
-       ================================ */
-    /* 1) Forzar contenedores a 100% ancho/alto */
-    #flipbook,
-    #flipbook .stf__parent,
-    #flipbook .stf__wrapper,
-    #flipbook .stf__block,
-    #flipbook .stf__item,
-    #flipbook .page-wrapper {
-      width: 100% !important;
-      height: 100% !important;
-      left: 0 !important;
-      top: 0 !important;
-      background: var(--bg-color) !important;
+    /* 4) Forzar fondo negro en todos los elementos de StPageFlip */
+    #flipbook *,
+    #flipbook canvas {
+      background: #000 !important;
     }
 
-    /* 2) Eliminar sombras que asomen */
+    /* 5) Eliminar bordes, sombras y evitar pixelación forzada */
     #flipbook .stf__outerShadow,
     #flipbook .stf__innerShadow,
     #flipbook .stf__hardShadow,
     #flipbook .stf__hardInnerShadow {
       display: none !important;
-    }
-
-    /* 3) Canvas full-size y nitidez */
-    #flipbook canvas {
-      width: 100% !important;
-      height: 100% !important;
-      image-rendering: optimizeSpeed;
-      image-rendering: -moz-crisp-edges;
-      image-rendering: -o-crisp-edges;
-      image-rendering: -webkit-optimize-contrast;
-      image-rendering: crisp-edges;
-      image-rendering: pixelated;
     }
   </style>
 </head>
@@ -82,59 +67,38 @@
   <button id="fullscreenBtn">Pantalla completa</button>
   <div id="flipbook"></div>
 
-  <!-- JS de la librería -->
   <script src="libs/page-flip.browser.min.js"></script>
   <script>
-    // Calcula dimensiones Retina
-    const dpr   = window.devicePixelRatio || 1;
-    const realW = 1200 * dpr;
-    const realH =  800 * dpr;
+    // 6) Inicializa con WIDTH=1200 & HEIGHT=800 (sin retina hack)
+    const pageFlip = new St.PageFlip(document.getElementById("flipbook"), {
+      width: 1200,
+      height: 800,
+      size: "stretch",
+      minWidth: 320,  maxWidth: 1600,
+      minHeight: 400, maxHeight: 1200,
+      maxShadowOpacity: 0.3,
+      showCover: true,
+      mobileScrollSupport: false,
+      useMouseEvents: true
+    });
 
-    // Inicializa
-    const pageFlip = new St.PageFlip(
-      document.getElementById("flipbook"), {
-        width: realW,
-        height: realH,
-        size: "stretch",
-        minWidth: 320,
-        maxWidth: 1600,
-        minHeight: 400,
-        maxHeight: 1200,
-        maxShadowOpacity: 0.3,
-        showCover: true,
-        mobileScrollSupport: false,
-        useMouseEvents: true
-      }
-    );
-
-    // Carga tus PNG
     pageFlip.loadFromImages([
-      "img/minos1.png",
-      "img/minos2.png",
-      "img/minos3.png",
-      "img/minos4.png",
-      "img/minos5.png",
-      "img/minos6.png",
-      "img/minos7.png",
-      "img/minos8.png",
-      "img/minos9.png",
-      "img/minos10.png"
+      "img/minos1.png", "img/minos2.png",
+      "img/minos3.png", "img/minos4.png",
+      "img/minos5.png", "img/minos6.png",
+      "img/minos7.png", "img/minos8.png",
+      "img/minos9.png", "img/minos10.png"
     ]);
 
-    // Toggle fullscreen
-    document.getElementById("fullscreenBtn")
-      .addEventListener("click", () => {
-        const e = document.documentElement;
-        if (!document.fullscreenElement) {
-          e.requestFullscreen?.() ||
-          e.webkitRequestFullscreen?.() ||
-          e.msRequestFullscreen?.();
-        } else {
-          document.exitFullscreen?.() ||
-          document.webkitExitFullscreen?.() ||
-          document.msExitFullscreen?.();
-        }
-      });
+    // 7) Toggle fullscreen
+    document.getElementById("fullscreenBtn").addEventListener("click", () => {
+      const el = document.documentElement;
+      if (!document.fullscreenElement) {
+        el.requestFullscreen?.() || el.webkitRequestFullscreen?.() || el.msRequestFullscreen?.();
+      } else {
+        document.exitFullscreen?.() || document.webkitExitFullscreen?.() || document.msExitFullscreen?.();
+      }
+    });
   </script>
 </body>
 </html>
