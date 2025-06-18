@@ -1,59 +1,54 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Minos Flipbook – Fullscreen al tocar</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="libs/page-flip.min.css" />
+  <meta charset="UTF-8"/>
+  <title>Minos Flipbook – Fullscreen & Fondo Negro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="libs/page-flip.min.css"/>
   <style>
+    /* 1. Todo el documento negro */
     html, body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      background: #000 !important;
-      overflow: hidden;
+      margin:0; padding:0;
+      width:100%; height:100%;
+      background:#000!important;
+      overflow:hidden;
     }
+    /* 2. Contenedor full-screen */
     #flipbook {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      background: #000 !important;
+      position:relative;
+      width:100vw;  height:100vh;
+      background:#000!important;
     }
-    /* Una página a la vez y todo negro */
+    /* 3. Forzar negro en cada elemento de StPageFlip */
     #flipbook *,
     #flipbook canvas,
     #flipbook .stf__parent,
     #flipbook .stf__wrapper,
     #flipbook .stf__block,
     #flipbook .stf__item,
-    #flipbook .page-wrapper {
-      width: 100% !important;
-      height: 100% !important;
-      top: 0 !important;
-      left: 0 !important;
-      background: #000 !important;
-      box-shadow: none !important;
-      border: none !important;
+    #flipbook .page-wrapper,
+    #flipbook .page-content {
+      background:#000!important;
+      box-shadow:none!important;
+      border:none!important;
     }
-    /* Ocultamos sombras internas */
+    /* 4. Oculta sombras internas */
     #flipbook .stf__outerShadow,
     #flipbook .stf__innerShadow,
     #flipbook .stf__hardShadow,
     #flipbook .stf__hardInnerShadow {
-      display: none !important;
+      display:none!important;
     }
-    /* Mensaje inicial */
+    /* 5. Hint inicial */
     #startHint {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #fff;
-      font-size: 18px;
-      text-align: center;
-      pointer-events: none;
-      opacity: 0.8;
-      font-family: sans-serif;
+      position:absolute;
+      top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      color:#fff; font-size:18px;
+      pointer-events:none;
+      font-family:sans-serif;
+      text-align:center;
+      opacity:.8;
     }
   </style>
 </head>
@@ -64,27 +59,40 @@
 
   <script src="libs/page-flip.browser.min.js"></script>
   <script>
-    // 1) Inicializa StPageFlip
+    // 1) Configura el libro con fondo negro por API
     const pageFlip = new St.PageFlip(
       document.getElementById("flipbook"), {
-        width: 1200,
-        height: 800,
-        size: "stretch",
-        minWidth: 320,
-        maxWidth: 1600,
-        minHeight: 400,
-        maxHeight: 1200,
-        maxShadowOpacity: 0.3,
-        showCover: true,
-        mobileScrollSupport: false,
-        useMouseEvents: true
+        width:1200,
+        height:800,
+        size:"stretch",
+        minWidth:320,   maxWidth:1600,
+        minHeight:400,  maxHeight:1200,
+        maxShadowOpacity:0,  // quita sombras
+        showCover:true,
+        mobileScrollSupport:false,
+        useMouseEvents:true,
+        // <-- CLAVE: backgroundColor aplica a las páginas
+        backgroundColor:"#000"
       }
     );
 
+    // 2) Carga tus imágenes
     pageFlip.loadFromImages([
       "img/minos1.png","img/minos2.png","img/minos3.png","img/minos4.png",
       "img/minos5.png","img/minos6.png","img/minos7.png","img/minos8.png",
       "img/minos9.png","img/minos10.png"
     ]);
 
-    // 2) Una sola escucha: al primer toque/clic, ped
+    // 3) Fullscreen al primer toque/clic
+    function enterFS() {
+      const e = document.documentElement;
+      (e.requestFullscreen  ||
+       e.webkitRequestFullscreen ||
+       e.msRequestFullscreen).call(e);
+      document.getElementById("startHint").style.display = "none";
+      document.removeEventListener("pointerdown", enterFS);
+    }
+    document.addEventListener("pointerdown", enterFS, { once:true });
+  </script>
+</body>
+</html>
