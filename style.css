@@ -10,8 +10,9 @@ body {
 
 .book {
   position: relative;
-  width: 60vw; /* más estrecho para página única */
-  height: 90vh;
+  width: 90vw;
+  max-width: 1200px;
+  aspect-ratio: 3 / 2;
   perspective: 1500px;
 }
 
@@ -28,5 +29,5 @@ body {
 .page img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
