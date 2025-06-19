@@ -2,59 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Minos Handmade</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background-color: #000;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      touch-action: manipulation;
-    }
-
-    #flipbook {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flipbook Minos</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="flipbook"></div>
-
-  <script type="module">
-    import { PageFlip } from 'https://unpkg.com/page-flip/dist/page-flip.browser.min.js';
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const pageFlip = new PageFlip(document.getElementById("flipbook"), {
-        width: 600,
-        height: 800,
-        size: "stretch",
-        drawShadow: true,
-        flippingTime: 700,
-        useMouseEvents: true,
-        mobileScrollSupport: false,
-        showCover: false,
-        usePortrait: true,
-        singlePage: true,
-        startPage: 0,
-      });
-
-      const pages = [];
-      for (let i = 1; i <= 10; i++) {
-        pages.push({ src: `img/minos${i}.png`, type: 'image' });
-      }
-
-      pageFlip.loadFromImages(pages);
-    });
-  </script>
+  <div class="book" id="flipbook"></div>
+  <script src="script.js"></script>
 </body>
 </html>
