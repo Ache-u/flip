@@ -20,6 +20,21 @@ body {
   align-items: center;
   z-index: 999;
   cursor: pointer;
+  text-align: center;
+  padding: 20px;
+}
+
+#start-screen h1 {
+  color: white;
+  font-size: 1.8rem;
+  line-height: 1.4;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
 }
 
 .book {
