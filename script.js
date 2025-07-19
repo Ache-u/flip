@@ -1,6 +1,6 @@
 const startScreen = document.getElementById("start-screen");
 const flipbook = document.getElementById("flipbook");
-const totalPages = 10;
+const totalPages = 11;
 let currentPage = 0;
 const pages = [];
 
